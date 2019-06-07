@@ -1,0 +1,25 @@
+#!/bin/bash
+
+Black='\033[0;30m'
+Red='\033[0;31m'
+Green='\033[0;32m'
+Yellow='\033[0;33m'
+Blue='\033[0;34m'
+Purple='\033[0;35m'
+Cyan='\033[0;36m'
+White='\033[0;37m'
+NC='\033[0m'
+
+echo -e "${Green}>>>>>>>>>>> Running pre-commit hook <<<<<<<<<<<<<${NC}\n"
+
+git duet-pre-commit
+if [ $? -eq 1 ]; then
+    exit 1
+fi
+
+./mvnw validate
+
+if [ $? -ne 0 ]; then
+    echo -e "\n\t${Red}CheckStyle failed. Run `${Yellow}./mvnw checkstyle:checkstyle${Red}` to re-check${NC}"
+    exit 1
+fi
