@@ -47,7 +47,7 @@ class StringCalculatorTest {
     }
     
     @Test
-    public void differentDelims() {
+    void differentDelims() {
         assertThat(subject.add("//\n\n1\n2\n3\n4\n5")).isEqualTo(15);
     }
     
@@ -57,5 +57,11 @@ class StringCalculatorTest {
             subject.add("1,2,-3,4,-5");
         });
         assertTrue(thrown.getMessage().contains("negative numbers not allowed [-3, -5]"));
+    }
+
+    @Test
+    void ignoreBigNums() {
+        assertThat(subject.add("2,1001")).isEqualTo(2);
+        assertThat(subject.add("//\n\n1\n2\n3\n4\n5\n1001")).isEqualTo(15);
     }
 }
